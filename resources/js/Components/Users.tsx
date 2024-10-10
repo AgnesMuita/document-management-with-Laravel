@@ -41,150 +41,114 @@ import {
 } from "@/Components/ui/table";
 
 import { Button } from "@/Components/ui/button";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/Components/ui/dialog";
 import { Input } from "@/Components/ui/input";
-import { Label } from "@/Components/ui/label";
 
-const data: Payment[] = [
-    {
-        id: "m5gr84i9",
-        name: "Ken Walibora",
-        status: "active",
-        role: "admin",
-    },
-    {
-        id: "3u1reuv4",
-        name: "Chimamanda Ngozi",
-        status: "active",
-        role: "tenant",
-    },
-    {
-        id: "derv1ws0",
-        name: "Trump",
-        status: "active",
-        role: "tenant",
-    },
-    {
-        id: "5kma53ae",
-        name: "Uhuru Kenyatta",
-        status: "active",
-        role: "agent",
-    },
-    {
-        id: "bhqecj4p",
-        name: "Kamala Haris",
-        status: "inactive",
-        role:"tenant",
-    },
-];
 
-export type Payment = {
-    id: string;
-    name: string;
-    status:"active" |"inactive";
-    role: "tenant" | "agent" |"admin"
-};
+interface User{
+    id:number;
+    name:string;
+    email:string;
+}
 
-export const columns: ColumnDef<Payment>[] = [
-    {
-        id: "select",
-        header: ({ table }) => (
-            <Checkbox
-                checked={
-                    table.getIsAllPageRowsSelected() ||
-                    (table.getIsSomePageRowsSelected() && "indeterminate")
-                }
-                onCheckedChange={(value) =>
-                    table.toggleAllPageRowsSelected(!!value)
-                }
-                aria-label="Select all"
-            />
-        ),
-        cell: ({ row }) => (
-            <Checkbox
-                checked={row.getIsSelected()}
-                onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Select row"
-            />
-        ),
-        enableSorting: false,
-        enableHiding: false,
-    },
-    {
-        accessorKey: "id",
-        header: "User Id",
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("id")}</div>
-        ),
-    },
-    {
-        accessorKey: "name",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
+interface UserProps{
+    data:User[];
+}
+
+export const Users: React.FC<UserProps> = ({ data }) => {
+    console.log(data)
+    const columns: ColumnDef<User>[] = [
+        {
+            id: "select",
+            header: ({ table }) => (
+                <Checkbox
+                    checked={
+                        table.getIsAllPageRowsSelected() ||
+                        (table.getIsSomePageRowsSelected() && "indeterminate")
                     }
-                >
-                    Name
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            );
+                    onCheckedChange={(value) =>
+                        table.toggleAllPageRowsSelected(!!value)
+                    }
+                    aria-label="Select all"
+                />
+            ),
+            cell: ({ row }) => (
+                <Checkbox
+                    checked={row.getIsSelected()}
+                    onCheckedChange={(value) => row.toggleSelected(!!value)}
+                    aria-label="Select row"
+                />
+            ),
+            enableSorting: false,
+            enableHiding: false,
         },
-        cell: ({ row }) => (
-            <div className="camelcase">{row.getValue("name")}</div>
-        ),
-    },
-    {
-        accessorKey: "status",
-        header: "Status",
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("status")}</div>
-        ),
-    },
-    {
-        accessorKey: "role",
-        header: "Role",
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("role")}</div>
-        ),
-    },
-    {
-        id: "actions",
-        enableHiding: false,
-        cell: ({ row }) => {
-            const payment = row.original;
-
-            return (
-                <div>
-                    <Button variant="ghost" className="h-8 w-8 p-0">
-                        <Edit className="h-4 w-4" />
+        {
+            accessorKey: "id",
+            header: "User Id",
+            cell: ({ row }) => (
+                <div className="capitalize">{row.getValue("id")}</div>
+            ),
+        },
+        {
+            accessorKey: "name",
+            header: ({ column }) => {
+                return (
+                    <Button
+                        variant="ghost"
+                        onClick={() =>
+                            column.toggleSorting(column.getIsSorted() === "asc")
+                        }
+                    >
+                        Name
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
                     </Button>
-                </div>
-            );
+                );
+            },
+            cell: ({ row }) => (
+                <div className="camelcase">{row.getValue("name")}</div>
+            ),
         },
-    },
-];
-
-export function Users() {
+        {
+            accessorKey: "email",
+            header: ({ column }) => {
+                return (
+                    <Button
+                        variant="ghost"
+                        onClick={() =>
+                            column.toggleSorting(column.getIsSorted() === "asc")
+                        }
+                    >
+                        Email
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </Button>
+                );
+            },
+            cell: ({ row }) => (
+                <div className="camelcase">{row.getValue("email")}</div>
+            ),
+        },
+    
+        {
+            id: "actions",
+            enableHiding: false,
+            cell: ({ row }) => {
+                return (
+                    <div>
+                        <Button variant="ghost" className="h-8 w-8 p-0">
+                            <Edit className="h-4 w-4" />
+                        </Button>
+                    </div>
+                );
+            },
+        },
+    ];
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] =
         React.useState<VisibilityState>({});
     const [rowSelection, setRowSelection] = React.useState({});
-
     const table = useReactTable({
-        data,
+        data: data,
         columns,
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
@@ -325,3 +289,9 @@ export function Users() {
         </div>
     );
 }
+
+
+// export function Users() {
+    
+// }
+

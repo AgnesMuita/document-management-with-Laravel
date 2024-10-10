@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Project;
+use App\Models\Document;
+
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -19,5 +22,13 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+        Project::factory()
+        ->count(30)
+        ->create()
+        ;
+        Document::factory()
+        ->count(30)
+        ->create()
+        ;
     }
 }

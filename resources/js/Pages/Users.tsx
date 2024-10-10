@@ -1,8 +1,10 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { Users } from "@/Components/Users";
+import { Key } from 'react';
 
-export default function users() {
+
+export default function users({users}:any) {
     return (
         <AuthenticatedLayout
             header={
@@ -17,7 +19,9 @@ export default function users() {
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-800">
-                            <Users />
+                            {/* {users.map((user:any)=> */}
+                                 <Users data={users} />
+                            {/* )} */}
                         </div>
                     </div>
                 </div>

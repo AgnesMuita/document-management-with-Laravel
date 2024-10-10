@@ -46,7 +46,7 @@ export function Dashboard() {
             <CardHeader>
                 <CardTitle>Area Chart - Gradient</CardTitle>
                 <CardDescription>
-                    Showing total visitors for the last 6 months
+                    Showing total receipts for the last 6 months
                 </CardDescription>
             </CardHeader>
             <CardContent>
